@@ -1,59 +1,59 @@
 ---
 resources:
-- name: repo
-  type: git
-  source:
-    uri: https://github.com/odmsolutions/tutorial_environment.git
+  - name: repo
+    type: git
+    source:
+      uri: https://github.com/odmsolutions/tutorial_environment.git
 
-- name: docker-source
-  type: git
-  source: 
-    uri: https://github.com/odmsolutions/concourse-dcind.git
+  - name: docker-source
+    type: git
+    source:
+      uri: https://github.com/odmsolutions/concourse-dcind.git
 
 
 jobs:
 
   - name: python-lint
     plan:
-    - get: docker-source
-      trigger: true
+      - get: docker-source
+        trigger: true
 
-    - task: build_docker_image
-      privileged: true
-      config:
-        platform: linux
-        image_resource:
-          type: registry-image
-          source:
-            repository: vito/oci-build-task
-        inputs:
-          - name: docker-source
-        outputs:
-          - name: concourse-dcind
-        params:
-          CONTEXT: docker-source
-        run:
-          path: build
+      - task: build_docker_image
+        privileged: true
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source:
+              repository: vito/oci-build-task
+          inputs:
+            - name: docker-source
+          outputs:
+            - name: concourse-dcind
+          params:
+            CONTEXT: docker-source
+          run:
+            path: build
 
-    - get: repo
-      trigger: true
-    
-    - task: lint
-      image: concourse-dcind
-      privileged: true
-      config:
-        platform: linux
-        # image_resource:
-        #   type: docker-image
-        #   source:
-        #     repository: karlkfi/concourse-dcind
-        inputs:
-          - name: repo
-        run:
-          path: entrypoint.sh
-          args:
-            - bash
-            - -ceux
-            - |
-              cd repo
-              bin/python-lint
+      - get: repo
+        trigger: true
+
+      - task: lint
+        image: concourse-dcind
+        privileged: true
+        config:
+          platform: linux
+          # image_resource:
+          #   type: docker-image
+          #   source:
+          #     repository: karlkfi/concourse-dcind
+          inputs:
+            - name: repo
+          run:
+            path: entrypoint.sh
+            args:
+              - bash
+              - -ceux
+              - |
+                cd repo
+                bin/python-lint

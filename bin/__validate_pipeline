@@ -42,10 +42,15 @@ def verify_resources(data):
     try:
       resource_type = resource['type']
     except KeyError:
-      errors.append((item.path, "has no type"))
+      errors.append((item_path, "has no type"))
 
+    try:
+      resource_handler = resource_types[resource_type]
+    except KeyError:
+      errors.append((item_path, f"{resource_type} not recognised"))
+    
     errors.extend(
-      resource_types[resource['type']](resource, item_path)
+      resource_handler(resource, item_path)
     )
   return errors
 
