@@ -11,7 +11,7 @@ services:
       PGDATA: /database
 
   concourse:
-    image: concourse/concourse:7.4.0
+    image: concourse/concourse
     command: quickstart
     privileged: true
     depends_on: [concourse-db]
@@ -33,3 +33,13 @@ services:
       CONCOURSE_CLUSTER_NAME: tutorial
       CONCOURSE_WORKER_CONTAINERD_DNS_SERVER: "8.8.8.8"
       CONCOURSE_WORKER_RUNTIME: "containerd"
+      CONCOURSE_RUNTIME: containerd
+    volumes:
+      - ./concourse_entrypoint.sh:/usr/local/bin/entrypoint.sh
+
+
+
+  #oncourse_1     | 
+  # time="2022-01-12T15:03:15.957228712Z" 
+  # level=error msg="failed to enable controllers ([cpuset cpu io memory hugetlb pids rdma])" 
+  # error="failed to write subtree controllers [cpuset cpu io memory hugetlb pids rdma] to \"/sys/fs/cgroup/cgroup.subtree_control\": write /sys/fs/cgroup/cgroup.subtree_control: operation not supported"
