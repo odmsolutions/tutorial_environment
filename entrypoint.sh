@@ -44,6 +44,10 @@ sanitize_cgroups() {
       # subsystem disabled; skip
       continue
     fi
+    
+    ls -l /proc/self/cgroup
+    echo Sys is:
+    echo     ${sys}
 
     grouping="$(cat /proc/self/cgroup | cut -d: -f2 | grep "\\<${sys}\\>")"
     if [[ -z "${grouping}" ]]; then
