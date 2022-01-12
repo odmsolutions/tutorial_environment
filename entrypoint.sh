@@ -45,12 +45,12 @@ sanitize_cgroups() {
       continue
     fi
     
-    ls -l /proc/self/cgroup
-    echo Sys is:
-    echo     ${sys}
-    cat /proc/self/cgroup
+    # ls -l /proc/self/cgroup
+    # echo Sys is:
+    # echo     ${sys}
+    # cat /proc/self/cgroup
 
-    grouping="$(cat /proc/self/cgroup | cut -d: -f2 | grep "\\<${sys}\\>")"
+    grouping="$(cat /proc/self/cgroup | cut -d: -f2 | grep "\\<${sys}\\>" || true)"
     if [[ -z "${grouping}" ]]; then
       # subsystem not mounted anywhere; mount it on its own
       grouping="${sys}"
