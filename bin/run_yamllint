@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -eu
+
+docker run --rm -v $(pwd):/src cytopia/yamllint -c /src/linter-configs/yamllint.yaml /src
