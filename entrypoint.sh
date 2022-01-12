@@ -48,6 +48,7 @@ sanitize_cgroups() {
     ls -l /proc/self/cgroup
     echo Sys is:
     echo     ${sys}
+    cat /proc/self/cgroup
 
     grouping="$(cat /proc/self/cgroup | cut -d: -f2 | grep "\\<${sys}\\>")"
     if [[ -z "${grouping}" ]]; then
