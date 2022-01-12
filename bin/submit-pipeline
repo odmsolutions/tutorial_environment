@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -eux
+
+
+PROJECT=my-local
+FLY_CMD="fly -t ${PROJECT}"
+PIPELINE_FILE=$1
+
+${FLY_CMD} set-pipeline -p $(basename ${PIPELINE_FILE}) -c ${PIPELINE_FILE}
+${FLY_CMD} unpause-pipeline -p $(basename ${PIPELINE_FILE})

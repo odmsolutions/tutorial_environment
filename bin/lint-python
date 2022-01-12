@@ -1,0 +1,6 @@
+#!/bin/bash
+set -eux
+
+IMAGE=python:3.10.1-bullseye
+
+docker run --rm -v $(pwd):/tools -v $(pwd)/repo:/repo ${IMAGE} /tools/bin/__inner-lint-python
