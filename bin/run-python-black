@@ -4,6 +4,6 @@ set -eux
 IMAGE=python:3.10.1-bullseye
 
 docker run  --rm -v $(pwd):/src ${IMAGE} bash -ceux "cd src &&
-  python -m pip install -e . &&
-  python -m unittest discover tests/ants
+  python -m pip install black . &&
+  black .
 "

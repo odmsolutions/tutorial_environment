@@ -2,7 +2,9 @@ resources:
 - name: repo
   type: git
   source:
-    uri: https://github.com/orionrobots/python_usb_robot_arm.git
+    uri: git@github.com:odmsolutions/tutorial_environment.git
+    private_key: |
+      ((private-key))
 
 jobs:
 - name: lint_ants
