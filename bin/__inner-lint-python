@@ -1,7 +1,9 @@
 #!/bin/bash
-cd /repo
+set -eux
+cd src
+
 python -m pip install --upgrade pip
-python -m pip install flake8 pytest
+python -m pip install flake8
 python -m pip install -e .
 
 # stop the build if there are Python syntax errors or undefined names
