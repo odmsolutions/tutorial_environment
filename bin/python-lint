@@ -3,4 +3,4 @@ set -eux
 
 IMAGE=python:3.10.1-bullseye
 
-docker run --rm -v $(pwd):/src ${IMAGE} /src/bin/__inner-lint-python
+docker run --rm -v $(pwd):/src ${IMAGE} "cd /src && /src/bin/__inner-lint-python"

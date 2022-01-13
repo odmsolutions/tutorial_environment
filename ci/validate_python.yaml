@@ -5,30 +5,58 @@ resources:
     source:
       uri: https://github.com/odmsolutions/tutorial_environment.git
 
+  # - name: concourse-dcind
+  #   type: docker-image
+  #   source:
+  #     repository: karlkfi/concourse-dcind
+  - name: python
+    type: docker-image
+    source:
+      repository: python
+      tag: 3.10.1-bullseye
+
 jobs:
 
   - name: python-lint
     plan:
       - get: repo
         trigger: true
+      # - get: concourse-dcind
+      - get: python
 
       - task: lint
-        privileged: true
+        image: python
         config:
           platform: linux
-          image_resource:
-            type: docker-image
-            source:
-              repository: karlkfi/concourse-dcind
           inputs:
             - name: repo
           run:
-            # path: repo/karlkfi_entrypoint.sh
-            path: entrypoint.sh
-
+            path: bash
             args:
-              - bash
               - -ceux
               - |
                 cd repo
-                bin/python-lint
+                bin/__inner-lint-python
+
+
+      # - task: lint-with-dcind
+      #   privileged: true
+      #   image: concourse-dcind
+      #   config:
+      #     platform: linux
+      #     # image_resource:
+      #     #   type: docker-image
+      #     #   source:
+      #     #     repository: karlkfi/concourse-dcind
+      #     inputs:
+      #       - name: repo
+      #     run:
+      #       # path: repo/karlkfi_entrypoint.sh
+      #       path: entrypoint.sh
+
+      #       args:
+      #         - bash
+      #         - -ceux
+      #         - |
+      #           cd repo
+      #           bin/python-lint
